@@ -3,9 +3,6 @@ var app = express();
 var cfenv = require("cfenv");
 var bodyParser = require('body-parser')
 
-// serve the react app files
-app.use(express.static(`${__dirname}/webapp/build`));
-
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -115,6 +112,12 @@ app.get("/api/visitors", function (request, response) {
   getAll[vendor](response);
 });
 
+app.get('/api/test', function(req, res) {
+  res.json({message: "Hello from the serverside!"})
+})
+
+
+
 // load local VCAP configuration  and service credentials
 var vcapLocal;
 try {
@@ -188,10 +191,8 @@ if(cloudant) {
   vendor = 'cloudant';
 }
 
-//serve static file (index.html, images, css)
-app.use(express.static(__dirname + '/views'));
-
-
+// serve the react app files
+app.use(express.static(`${__dirname}/webapp/build`));
 
 var port = process.env.PORT || 3000
 app.listen(port, function() {
