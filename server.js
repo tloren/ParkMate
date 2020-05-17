@@ -3,6 +3,9 @@ var app = express();
 var cfenv = require("cfenv");
 var bodyParser = require('body-parser')
 
+// serve the react app files
+app.use(express.static(`${__dirname}/webapp/build`));
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
