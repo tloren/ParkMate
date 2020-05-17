@@ -3,8 +3,3 @@ applications:
  - name: ParkingFinderService
    random-route: true
    memory: 128M
-- name: webapp
-  path: webapp/build/
-  memory: 64M
-  instances: 1
-  buildpack: https://github.com/cloudfoundry/staticfile-buildpack
