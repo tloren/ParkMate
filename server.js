@@ -1,3 +1,5 @@
+var soda = require('soda-js');
+
 var express = require("express");
 var app = express();
 var cfenv = require("cfenv");
