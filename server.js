@@ -17,6 +17,15 @@ var vendor; // Because the MongoDB and Cloudant use different API commands, we
             // vendor.
 var dbName = 'mydb';
 
+
+//TODO: 
+//getDataAPI(lat, lon) //take lat, lon and returns locations array
+
+//storeData(locations) //takes a location array and returns bool
+
+//getDataDB(lat, lon) //takes lat, lon and returns locations array
+
+
 // Separate functions are provided for inserting/retrieving content from
 // MongoDB and Cloudant databases. These functions must be prefixed by a
 // value that may be assigned to the 'vendor' variable, such as 'mongodb' or
@@ -120,7 +129,8 @@ app.get('/api/test_message', function(req, res) {
 })
 
 //TODO: api to get nearby parking locations
-app.get('/api/test', function(req, res, next) {
+app.post('/api/find_parking', function(req, res, next) {
+    locations = []
     var parking = new soda.Consumer('data.melbourne.vic.gov.au');
     data = parking.query()
       .withDataset('vh2v-4nfs')
@@ -130,14 +140,24 @@ app.get('/api/test', function(req, res, next) {
       .getRows()
         .on('success', function(rows) { console.log(rows); })
         .on('error', function(error) { console.error(error); });
-
-    //Mock data to send across to webapp
-    locations = []
-    locations.push({'lat':'1234', 'lng':'1234'})
-    locations.push({'lat':'213', 'lng':'123'})
-    locations.push({'lat':'345', 'lng':'657'})
-    locations.push({'lat':'345', 'lng':'453'})
+    //Unpack parameters
+    //{lat:983498234, lon:9872349}
+    lat = -37.81317468
+    lon = 144.940706
+    //Try to fetch data from DB
+    //locations = getDataDB(lat, lng)
+    //Try to fetch from API
+    if(locations.length<0){
+      //locations = getDataAPI(lat, lon)
+      //storeData(locations)
+      locations.push({'bay_id': 6589,'lat':-37.81317468, 'lon':144.940706})
+      locations.push({'bay_id': 5271,'lat':-37.81181255, 'lon':144.9534953})
+      locations.push({'bay_id': 5771,'lat':-37.81202872, 'lon':144.9764601})
+      locations.push({'bay_id': 2041,'lat':-37.81295477, 'lon':144.9562052})
+    }   
+    
     //Set the response
+    console.log(locations)
     res.json({locations: locations})
 });
 
