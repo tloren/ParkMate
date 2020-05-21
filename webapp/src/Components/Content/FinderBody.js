@@ -6,7 +6,7 @@ import MapComponent from "../Layouts/MapComponent"
 import axios from 'axios'
 
 const FinderBody = () => {
-	const [message, setMessage] = useState([]);
+	const [locations, setLocations] = useState([]);
 	useEffect(() => {
 	console.log("fetching")
 	const fetchData = async () => {
@@ -15,14 +15,18 @@ const FinderBody = () => {
 	      method: 'get'
 	  })
 	  console.log(result)
-	  setMessage(result.data.message);
+	  setLocations(result.data.locations);
 	};
 	fetchData();
 	}, []);
-	var location = {lat:-37.8136, lng:144.9631, zoom:14}
+	var location = {lat:-37.8136, lng:144.9631, zoom:20}
 	return <div>
-		<h1>{message}</h1>
-		<MapComponent location={location}/>
+		{locations.map((location, i) => (
+          <h1 id={i}>
+            Lat:{location.lat}, Lng:{location.lng}
+          </h1>
+        ))}
+		<MapComponent location={locations}/>
 	</div>
 }
 
