@@ -114,10 +114,32 @@ app.get("/api/visitors", function (request, response) {
   getAll[vendor](response);
 });
 
-app.get('/api/test', function(req, res) {
+//Test message api
+app.get('/api/test_message', function(req, res) {
   res.json({message: "Hello from the serverside!"})
 })
 
+//TODO: api to get nearby parking locations
+app.get('/api/test', function(req, res, next) {
+    var parking = new soda.Consumer('data.melbourne.vic.gov.au');
+    data = parking.query()
+      .withDataset('vh2v-4nfs')
+      .limit(5)
+      .where({ bay_id: '3274' })
+      //.where({ within_circle(location,'-37.81586448563712',144.98141868728942,1000) })
+      .getRows()
+        .on('success', function(rows) { console.log(rows); })
+        .on('error', function(error) { console.error(error); });
+
+    //Mock data to send across to webapp
+    locations = []
+    locations.push({'lat':'1234', 'lng':'1234'})
+    locations.push({'lat':'213', 'lng':'123'})
+    locations.push({'lat':'345', 'lng':'657'})
+    locations.push({'lat':'345', 'lng':'453'})
+    //Set the response
+    res.json({locations: locations})
+});
 
 
 // load local VCAP configuration  and service credentials
