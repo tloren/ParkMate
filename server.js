@@ -18,13 +18,66 @@ var vendor; // Because the MongoDB and Cloudant use different API commands, we
 var dbName = 'mydb';
 
 
-//TODO: 
-//getDataAPI(lat, lon) //take lat, lon and returns locations array
+//TODO: take lat, lon and returns locations array
+getDataAPI = function(lat, lon) {
+    locations = []
+    // var parking = new soda.Consumer('data.melbourne.vic.gov.au');
+    // data = parking.query()
+    //   .withDataset('vh2v-4nfs')
+    //   .limit(5)
+    //   .where({ bay_id: '3274' })
+    //   //.where({ within_circle(location,'-37.81586448563712',144.98141868728942,1000) })
+    //   .getRows()
+    //     .on('success', function(rows) { console.log(rows); })
+    //     .on('error', function(error) { console.error(error); });
+    locations.push({'bay_id': 6589,'lat':-37.81317468, 'lon':144.940706})
+    locations.push({'bay_id': 5271,'lat':-37.81181255, 'lon':144.9534953})
+    locations.push({'bay_id': 5771,'lat':-37.81202872, 'lon':144.9764601})
+    locations.push({'bay_id': 2041,'lat':-37.81295477, 'lon':144.9562052})
+    return locations
+}
 
-//storeData(locations) //takes a location array and returns bool
+//TODO: takes lat, lon and returns locations array
+getDataDB = function(lat, lon){
+  locations = []
+  return locations
+} 
 
-//getDataDB(lat, lon) //takes lat, lon and returns locations array
+//TODO: takes a location array and returns bool
+storeData = function(locations){
+  console.log("Data (supposedly) stored!")
+} 
 
+
+//-----------------OUR CODE----------------------
+//Test message api
+app.get('/api/test_message', function(req, res) {
+  res.json({message: "Hello from the serverside!"})
+})
+
+//TODO: api to get nearby parking locations
+app.post('/api/find_parking', function(req, res, next) {
+    locations = []
+    //Unpack parameters
+    currLat = req.body.lat
+    currLon =  req.body.lon
+    console.log(currLat, currLon)
+
+    //Try to fetch data from DB
+    locations = getDataDB(lat, lng)
+
+    //Try to fetch from API if data not in DB
+    if(locations.length==0){
+      locations = getDataAPI(currLat, currLon)
+      storeData(locations)
+    }
+    
+    //Set the response
+    console.log(locations)
+    res.json({locations: locations})
+});
+
+//---------------BOILER PLATE CODE FOR MONGODB-------------
 
 // Separate functions are provided for inserting/retrieving content from
 // MongoDB and Cloudant databases. These functions must be prefixed by a
@@ -121,44 +174,6 @@ app.get("/api/visitors", function (request, response) {
     return;
   }
   getAll[vendor](response);
-});
-
-//Test message api
-app.get('/api/test_message', function(req, res) {
-  res.json({message: "Hello from the serverside!"})
-})
-
-//TODO: api to get nearby parking locations
-app.post('/api/find_parking', function(req, res, next) {
-    locations = []
-    var parking = new soda.Consumer('data.melbourne.vic.gov.au');
-    data = parking.query()
-      .withDataset('vh2v-4nfs')
-      .limit(5)
-      .where({ bay_id: '3274' })
-      //.where({ within_circle(location,'-37.81586448563712',144.98141868728942,1000) })
-      .getRows()
-        .on('success', function(rows) { console.log(rows); })
-        .on('error', function(error) { console.error(error); });
-    //Unpack parameters
-    //{lat:983498234, lon:9872349}
-    lat = -37.81317468
-    lon = 144.940706
-    //Try to fetch data from DB
-    //locations = getDataDB(lat, lng)
-    //Try to fetch from API
-    if(locations.length<0){
-      //locations = getDataAPI(lat, lon)
-      //storeData(locations)
-      locations.push({'bay_id': 6589,'lat':-37.81317468, 'lon':144.940706})
-      locations.push({'bay_id': 5271,'lat':-37.81181255, 'lon':144.9534953})
-      locations.push({'bay_id': 5771,'lat':-37.81202872, 'lon':144.9764601})
-      locations.push({'bay_id': 2041,'lat':-37.81295477, 'lon':144.9562052})
-    }   
-    
-    //Set the response
-    console.log(locations)
-    res.json({locations: locations})
 });
 
 
