@@ -1,21 +1,61 @@
-import React from 'react'
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
+import React, { useState, useEffect } from "react"
+import { Map, CircleMarker, TileLayer, Marker, Popup } from "react-leaflet";
+import axios from 'axios'
+
 
 const MapComponent = (props) => {
- 	console.log(props)
+  const [locations, setLocations] = useState([{'bay_id': 6589,'lat':-37.81317468, 'lon':144.940706}, {'bay_id': 5271,'lat':-37.81181255, 'lon':144.9534953}]);
+  const [currLocation, setCurrLocation] = useState([-37.81317468, 144.940706]);
+  // useEffect(() => {
+  // const fetchData = async () => {
+  //   const result = await axios({
+  //       url: '/api/test',
+  //       method: 'get'
+  //   })
+  //   console.log(result.data.locations)
+  //   setLocations(result.data.locations);
+  // };
+  // fetchData();
+  // }, []);
+  //console.log(position)
+  const addLocation = (e) => {
+    setCurrLocation([e.latlng.lat, e.latlng.lng])
+    console.log(currLocation)
+    axios.get('/api/find_parking')
+    .then(
+      response => {console.log(response.data.locations);
+      setLocations(response.data.locations);}
+    )
+  }
 	return <div style={{ width: '100%', height: '100vh'}}>
-	<Map 
-         center={[props.location.lat, props.location.lng]} 
-         zoom={props.location.zoom} 
-         style={{ width: '100%', height: '100%'}}
-     >
-      <TileLayer
-        attribution='&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-       />
-     </Map>
+    <h1> Click on a location to get started! </h1>
+    
+    { locations && <Map
+          style={{ height: "600px", width: "100%" }}
+          zoom={16}
+          center={currLocation}
+          onClick={addLocation} >
+      <TileLayer url="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <CircleMarker
+        radius = {100}
+        center={currLocation}
+        opacity={0.5}
+      >
+         <Popup>
+           <span>Current Search Area</span>
+         </Popup>
+      </CircleMarker>
+      { locations.map((item, key) => {return (
+          <Marker position={[item.lat, item.lon]}>
+            <Popup>
+              Bay: {item.bay_id}
+            </Popup>
+          </Marker>
+        )})
+      }
+    </Map>
+  }
 	</div>
-	//return <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d25203.115353700465!2d144.97672173955078!3d-37.85117770000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sau!4v1589704284576!5m2!1sen!2sau" width="600" height="450" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
 }
 
 export default MapComponent
