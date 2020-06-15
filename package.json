@@ -16,13 +16,15 @@
   },
   "dependencies": {
     "@cloudant/cloudant": "^3.0.2",
-    "body-parser": "^1.17.x",
+    "body-parser": "^1.19.0",
     "cfenv": "^1.2.2",
     "dotenv": "^4.0.0",
     "express": "^4.15.x",
     "mongodb": "^3.5.7",
+    "requests": "^0.3.0",
     "soda": "^0.2.5",
-    "soda-js": "^0.2.3"
+    "soda-js": "^0.2.3",
+    "swagger": "^0.7.5"
   },
   "author": "IBM Corp",
   "license": "Apache-2.0"
