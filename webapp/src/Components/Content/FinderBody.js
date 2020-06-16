@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { Map, CircleMarker, TileLayer, Marker, Popup } from "react-leaflet";
+import { Typography, Button } from '@material-ui/core';
 import axios from 'axios'
-
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 const FinderBody = () => {
   const [locations, setLocations] = useState([]);
@@ -17,9 +18,32 @@ const FinderBody = () => {
       setLocations(response.data.locations);}
     )
   }
+  const refresh = (e) => {
+    axios.post('/api/find_parking', {
+    lat: currLocation[0],
+    lon: currLocation[1] })
+    .then(
+      response => {console.log(response.data.locations);
+      setLocations(response.data.locations);}
+    )
+  }
 	return <div style={{ width: '100%', height: '100vh'}}>
-    <h1> Click on a location to get started! </h1>
-    
+    <div style={{display: 'flex', marginTop: '10px'}}>
+      <div>
+      <Typography variant="h4" display="block" >
+          Parking Finder
+      </Typography>
+      <Typography variant="button" display="block" >
+          Click on the map to get started!
+      </Typography>
+      </div>
+      <Button
+        onClick={refresh}
+        style={{ margin: "10px", marginLeft: "auto", background: "#ffc947" }}
+      >
+        <RefreshIcon />
+      </Button>
+      </div>
     { locations && <Map
           style={{ height: "600px", width: "100%" }}
           zoom={16}

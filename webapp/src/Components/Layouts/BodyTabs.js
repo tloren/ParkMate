@@ -8,6 +8,13 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { ForecasterBody, FinderBody } from "../Content"
 
+const style = {
+  background: 'linear-gradient(45deg, #6d6d6d 30%, #6d6d6d 90%)',
+  borderRadius: 3,
+  border: 0,
+  color: 'white',
+};
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -38,18 +45,16 @@ export default function BodyTabs() {
 
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="static" style={style}>
         <Tabs value={value} onChange={handleChange} >
           <Tab label="Find" />
           <Tab label="Forecast" />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        Map to mark nearby spots
         <FinderBody />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Map to mark parking density
         <ForecasterBody />
       </TabPanel>
     </div>

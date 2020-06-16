@@ -1,18 +1,18 @@
 import React from "react"
 import { AppBar, Toolbar, Typography } from "@material-ui/core/"
 
-{/*
-Author: Trevor Neil Loren
-Created Date : 2020/01/02
-Modified Data: 2020/02/09
-Description: Header to be displayed on the website landing page
-*/}
+const style = {
+  background: 'linear-gradient(45deg, #ffc947 30%, #ff9800 90%)',
+  borderRadius: 3,
+  border: 0,
+  color: 'black',
+};
 const Header = () => {
     return (
-      <AppBar position="static" >
+      <AppBar position="static" style={style}>
         <Toolbar>
           <Typography variant="h3" color="inherit">
-            Parking Finder
+            ParkMate
           </Typography>
         </Toolbar>
       </AppBar>

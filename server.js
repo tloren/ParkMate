@@ -47,10 +47,10 @@ app.post('/api/find_parking', function(req, res, next) {
     res.json({locations: locations})
 });
 
-app.get('/api/predict', function(req, res, next){
-    data = getIntervalData()
+app.post('/api/predict', function(req, res, next){
+    //TODO: data = getIntervalData()
     var options = { url     : "https://parkmatepredict.us-south.cf.appdomain.cloud/api/predict" }
-    request.get( options, ( error, response, body ) => {
+    request.post( options, ( error, response, body ) => {
         console.log(response);
         res.json(response)
     });

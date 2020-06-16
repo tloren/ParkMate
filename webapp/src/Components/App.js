@@ -1,14 +1,16 @@
 import React from "react"
 import Home from "./Content/Home"
 import { Header, Footer, BodyTabs } from "./Layouts"
-{/*
-Author: Trevor Neil Loren
-Created Date : 2020/01/02
-Modified Data: 2020/02/09
-Description: Parent Application container component
-*/}
+const style = {
+  background: 'linear-gradient(90deg, #1b1b1b 30%, #1b1b1b 90%)',
+  borderRadius: 3,
+  border: 0,
+  color: 'white',
+  width: '100%',
+  height: '100%'
+};
 const App = () => {
-  return <div>
+  return <div style={style}>
   	<Home />
   </div>
 }
