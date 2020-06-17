@@ -20,7 +20,7 @@
     "cfenv": "^1.2.2",
     "dotenv": "^4.0.0",
     "express": "^4.15.x",
-    "mongodb": "^3.5.7",
+    "mongodb": "^3.5.9",
     "requests": "^0.3.0",
     "soda": "^0.2.5",
     "soda-js": "^0.2.3",

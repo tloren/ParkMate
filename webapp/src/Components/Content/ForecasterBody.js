@@ -9,7 +9,7 @@ const RectangleList = (props) => {
   return (
     <span>
       { props.data.length>0 && props.data.map((item, i) => {
-        return <Rectangle key={i} bounds={item.bounds} weight={0.2} fillOpacity={0.4} color={item.val>0.8? (item.val>0.9? "Red":"orange") : (item.val>0.6?"yellow":"green")} />;
+        return <Rectangle key={i} bounds={item.bounds} weight={0.2} fillOpacity={0.4} color={item.val>0.6? (item.val>0.8? "Red":"orange") : (item.val>0.4?"yellow":"green")} />;
       })}
     </span>
   );
@@ -21,15 +21,14 @@ const ForecasterBody = () => {
   const [currLocation, setCurrLocation] = useState([-37.814, 144.965]);
   const addLocation = (e) => {
     setCurrLocation([e.latlng.lat, e.latlng.lng])
-    //console.log(currLocation)
-    axios.post('/api/predict',{})
-    .then(
-      response => {console.log(response.data.body);
-      setAreas(JSON.parse(response.data.body));}
-    )
+    axios.get('/api/forecast')
+      .then(
+        response => {console.log(response.data.body);
+        setAreas(JSON.parse(response.data.body));}
+      )
   }
   const refresh = (e) => {
-    axios.post('/api/predict',{})
+    axios.get('/api/forecast')
     .then(
       response => {console.log(response.data.body);
       setAreas(JSON.parse(response.data.body));}
