@@ -1,7 +1,7 @@
 # ParkingFinder
 A web application for finding and forecating parking in the city of Melbourne
 
-### Starting the app locally
+## Starting the app locally
 
 In the project directory, you can run:
 
