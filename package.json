@@ -19,7 +19,7 @@
     "body-parser": "^1.19.0",
     "cfenv": "^1.2.2",
     "dotenv": "^4.0.0",
-    "express": "^4.15.x",
+    "express": "^4.17.x",
     "mongodb": "^3.5.9",
     "requests": "^0.3.0",
     "soda": "^0.2.5",
